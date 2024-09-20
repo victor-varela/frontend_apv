@@ -1,4 +1,5 @@
-import { useState, useEffect, createContext } from "react"; //creamos el context y luego lo usamos en el custom hook
+import { useState, useEffect, createContext} from "react"; //creamos el context y luego lo usamos en el custom hook
+import {useNavigate} from 'react-router-dom';
 import clienteAxios from "../config/axios";
 
 //Nombrar el context
@@ -9,6 +10,7 @@ const AuthProvider = ({ children }) => {
   //States disponibles globalmente
   const [auth, setAuth] = useState({});
   const [cargando, setCargando] = useState(true);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const autenticarUsuario = async () => {
@@ -33,6 +35,7 @@ const AuthProvider = ({ children }) => {
       try {
         const { data } = await clienteAxios("/veterinarios/perfil", config);
         setAuth(data);
+        navigate('/admin')
       } catch (error) {
         console.log(error.response.data.msg);
         setAuth({});
